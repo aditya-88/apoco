@@ -12,6 +12,8 @@ Go to the releases section and downlod the binary file for your system.
 
 ## Usage ##
 
+*The default threads are counted based on the system. The number shown as default here pertains to the system this program was built on.*
+
 ```bash
 Usage of apoco:
   -f string
