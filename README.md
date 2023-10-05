@@ -15,7 +15,8 @@ Go to the releases section and downlod the binary file for your system.
 *The default threads are counted based on the system. The number shown as default here pertains to the system this program was built on.*
 
 ```bash
-Usage of apoco:
+  -chr
+        Use this flag if the reference chromosomes are named with "chr" in the names (e.g. chr1, chr2, chrX, etc.)
   -f string
         Folder containing BAM files
   -hg int
