@@ -8,7 +8,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.2.0-beta"
+	version  string = "0.2.1-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -18,6 +18,8 @@ var (
 	minQual  int
 	hg       int
 	chr      bool
+	min      int
+	max      int
 	result   string = "Sample\tAPOE1\tAPOE2\tAPOE3\tAPOE4\n"
 )
 
@@ -35,6 +37,8 @@ func flagsProcess() {
 	flag.IntVar(&hg, "hg", 38, "Human genome version (19 or 38)")
 	flag.IntVar(&minQual, "qual", 30, "Minimum mapping quality")
 	flag.BoolVar(&chr, "chr", false, "Use this flag if the reference chromosomes are named with \"chr\" in the names (e.g. chr1, chr2, chrX, etc.)")
+	flag.IntVar(&min, "min", 100, "Minimum read length")
+	flag.IntVar(&max, "max", 150, "Maximum read length")
 	flag.Parse()
 }
 func main() {
@@ -61,12 +65,12 @@ func main() {
 	}
 	// Print the setup of the program
 	fmt.Println("##################################################")
-	fmt.Printf("Folder: %s\nFound BAM files: %d\nThreads: %d\nAssembly: hg%d\nrs7412: %d\nrs429358: %d\nMinimum mapping quality: %d\n", folder, len(files), threads, hg, rs7412, rs429358, minQual)
+	fmt.Printf("Folder: %s\nFound BAM files: %d\nThreads: %d\nAssembly: hg%d\nrs7412: %d\nrs429358: %d\nMinimum mapping quality: %d\nMinimum read length: %d\nMaxmimum read length: %d\n", folder, len(files), threads, hg, rs7412, rs429358, minQual, min, max)
 	fmt.Println("##################################################")
 	// Process each file
 	for _, file := range files {
 		fmt.Println("Processing file:", file)
-		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr)
+		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr, min, max)
 		result += fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
 	}
 	fmt.Println("##################################################")

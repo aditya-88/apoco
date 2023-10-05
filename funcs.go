@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -28,7 +29,7 @@ func getBamFiles(folder string) []string {
 	}
 	return files
 }
-func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, chr bool) APOE {
+func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, chr bool, minReadLength int, maxReadLength int) APOE {
 	chrName := "19"
 	chrExcess := "20"
 	if chr {
@@ -75,15 +76,17 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 		if err != nil {
 			log.Fatalln("Error reading BAM file:", err)
 		}
-		if rec.Ref.Name() == chrName && rec.Len() == 100 {
+		if rec.Ref.Name() == chrName && rec.Len() <= maxReadLength && rec.Len() >= minReadLength {
 			if rec.Start() <= rs429358 && rec.End() >= rs429358 {
 				relPos := rs429358 - rec.Start()
 				trigger = true
-				switch relPos {
-				case 0:
-					relPos = 0
-				case rec.Len():
+				if relPos == rec.Len() {
 					relPos = rec.Len() - 1
+				}
+				currSeq := (strings.Split(strings.Split(rec.String(), " ")[9], ""))
+				if len(currSeq) <= relPos {
+					fmt.Println("Found a malformed read, skipping...")
+					continue
 				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
@@ -100,11 +103,13 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 			if rec.Start() <= rs7412 && rec.End() >= rs7412 {
 				relPos := rs7412 - rec.Start()
 				trigger = true
-				switch relPos {
-				case 0:
-					relPos = 0
-				case rec.Len():
+				if relPos == rec.Len() {
 					relPos = rec.Len() - 1
+				}
+				currSeq := (strings.Split(strings.Split(rec.String(), " ")[9], ""))
+				if len(currSeq) <= relPos {
+					fmt.Println("Found a malformed read, skipping...")
+					continue
 				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
