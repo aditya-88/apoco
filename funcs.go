@@ -28,7 +28,13 @@ func getBamFiles(folder string) []string {
 	}
 	return files
 }
-func processBam(path string, threads int, rs7412 int, rs429358 int, qual int) APOE {
+func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, chr bool) APOE {
+	chrName := "19"
+	chrExcess := "20"
+	if chr {
+		chrName = "chr19"
+		chrExcess = "chr20"
+	}
 	// Get the sample name from the path
 	sampleName := strings.Split(strings.Split(path, "/")[len(strings.Split(path, "/"))-1], "_")[0]
 	// Define apoe variable of type APOE
@@ -69,7 +75,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int) AP
 		if err != nil {
 			log.Fatalln("Error reading BAM file:", err)
 		}
-		if rec.Ref.Name() == "19" && rec.Len() == 100 {
+		if rec.Ref.Name() == chrName && rec.Len() == 100 {
 			if rec.Start() <= rs429358 && rec.End() >= rs429358 {
 				relPos := rs429358 - rec.Start()
 				trigger = true
@@ -123,7 +129,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int) AP
 					apoe.APOE1++
 				}
 			}
-		} else if rec.Ref.Name() == "20" {
+		} else if rec.Ref.Name() == chrExcess {
 			break
 		}
 	}

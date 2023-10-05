@@ -8,7 +8,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.1.0-beta"
+	version  string = "0.2.0-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -17,6 +17,7 @@ var (
 	rs429358 int = 44908684
 	minQual  int
 	hg       int
+	chr      bool
 	result   string = "Sample\tAPOE1\tAPOE2\tAPOE3\tAPOE4\n"
 )
 
@@ -33,6 +34,7 @@ func flagsProcess() {
 	flag.IntVar(&threads, "t", runtime.NumCPU(), "Number of threads to use")
 	flag.IntVar(&hg, "hg", 38, "Human genome version (19 or 38)")
 	flag.IntVar(&minQual, "qual", 30, "Minimum mapping quality")
+	flag.BoolVar(&chr, "chr", false, "Use this flag if the reference chromosomes are named with \"chr\" in the names (e.g. chr1, chr2, chrX, etc.)")
 	flag.Parse()
 }
 func main() {
@@ -64,7 +66,7 @@ func main() {
 	// Process each file
 	for _, file := range files {
 		fmt.Println("Processing file:", file)
-		apoe := processBam(file, threads, rs7412, rs429358, minQual)
+		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr)
 		result += fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
 	}
 	fmt.Println("##################################################")
