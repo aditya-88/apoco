@@ -26,6 +26,8 @@ Usage of apoco:
         Maximum read length (default 150)
   -min int
         Minimum read length (default 100)
+  -o string
+        Output file name (default "./apoeCounts.tsv")
   -qual int
         Minimum mapping quality (default 30)
   -t int
@@ -34,8 +36,7 @@ Usage of apoco:
 
 ## Results ##
 
-The program outputs a tab delimited `apoeCounts.txt` file with the sample name and raw read counts for each `APOE` allele.
-Tis file is created in the same directory as the one provided to the program, so, please make sure that you have R/W permission.
+Unless specified an output file location, the program outputs a tab delimited `apoeCounts.tsv` file with the sample name and raw read counts for each `APOE` allele in the current directory as the input.
 
 Example:
 

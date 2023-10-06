@@ -37,7 +37,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 		chrExcess = "chr20"
 	}
 	// Get the sample name from the path
-	sampleName := strings.Split(strings.Split(path, "/")[len(strings.Split(path, "/"))-1], "_")[0]
+	sampleName := strings.Split(strings.Split(path, "/")[len(strings.Split(path, "/"))-1], ".")[0]
 	// Define apoe variable of type APOE
 	apoe := APOE{
 		SampleName: sampleName,
@@ -141,8 +141,8 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 	return apoe
 }
 
-func writeResult(result string, folder string) {
-	f, err := os.Create(folder + "/apoeCounts.txt")
+func writeResult(result string, file string) {
+	f, err := os.Create(file)
 	if err != nil {
 		log.Fatalln("Error creating result file:", err)
 	}
