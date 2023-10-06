@@ -36,7 +36,7 @@ Usage of apoco:
 
 ## Results ##
 
-Unless specified an output file location, the program outputs a tab delimited `apoeCounts.tsv` file with the sample name and raw read counts for each `APOE` allele in the current directory as the input.
+Unless specified an output file location, the program outputs a tab delimited `apoeCounts.tsv` file with the sample name and raw read counts for each `APOE` allele in the current directory.
 
 Example:
 
