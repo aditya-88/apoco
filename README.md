@@ -31,3 +31,16 @@ Usage of apoco:
   -t int
         Number of threads to use (default 32)
 ```
+
+## Results ##
+
+The program outputs a tab delimited `apoeCounts.txt` file with the sample name and raw read counts for each `APOE` allele.
+Tis file is created in the same directory as the one provided to the program, so, please make sure that you have R/W permission.
+
+Example:
+
+```tsv
+Sample	APOE1	APOE2	APOE3	APOE4
+TestA	0	2	9498	78
+TestB	0	0	6284	4875
+```
