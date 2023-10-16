@@ -85,7 +85,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 				}
 				currSeq := (strings.Split(strings.Split(rec.String(), " ")[9], ""))
 				if len(currSeq) <= relPos {
-					fmt.Println("Found a malformed read, skipping...")
+					fmt.Println(">> Skipping malformed read <<")
 					continue
 				}
 				currQual := int(rec.Qual[relPos])

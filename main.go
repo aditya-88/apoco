@@ -4,11 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"runtime"
+	"strings"
 )
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.2.2-beta"
+	version  string = "0.2.3-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -70,13 +71,13 @@ func main() {
 	fmt.Printf("Folder: %s\nFound BAM files: %d\nThreads: %d\nAssembly: hg%d\nrs7412: %d\nrs429358: %d\nMinimum mapping quality: %d\nMinimum read length: %d\nMaxmimum read length: %d\nOutfile file: %s\n", folder, len(files), threads, hg, rs7412, rs429358, minQual, min, max, outFile)
 	fmt.Println("##################################################")
 	// Process each file
-	for _, file := range files {
-		fmt.Println("Processing file:", file)
+	for fileNum, file := range files {
+		fmt.Printf("(%d/%d) Processing file %s\n", fileNum+1, len(files), strings.Split(file, "/")[len(strings.Split(file, "/"))-1])
 		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr, min, max)
 		result += fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
 	}
 	fmt.Println("##################################################")
-	fmt.Println("Writing results to file...")
+	fmt.Println("Writing results to file: ", outFile)
 	writeResult(result, outFile)
 	fmt.Println("Done!")
 }
