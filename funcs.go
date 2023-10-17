@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -78,15 +77,10 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 		}
 		if rec.Ref.Name() == chrName && rec.Len() <= maxReadLength && rec.Len() >= minReadLength {
 			if rec.Start() <= rs429358 && rec.End() >= rs429358 {
-				relPos := rs429358 - rec.Start()
+				relPos := (rs429358) - rec.Start()
 				trigger = true
-				if relPos == rec.Len() {
-					relPos = rec.Len() - 1
-				}
-				currSeq := (strings.Split(strings.Split(rec.String(), " ")[9], ""))
-				if len(currSeq) <= relPos {
-					fmt.Println(">> Skipping malformed read <<")
-					continue
+				if relPos > 0 {
+					relPos = relPos - 1
 				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
@@ -103,13 +97,8 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 			if rec.Start() <= rs7412 && rec.End() >= rs7412 {
 				relPos := rs7412 - rec.Start()
 				trigger = true
-				if relPos == rec.Len() {
-					relPos = rec.Len() - 1
-				}
-				currSeq := (strings.Split(strings.Split(rec.String(), " ")[9], ""))
-				if len(currSeq) <= relPos {
-					fmt.Println("Found a malformed read, skipping...")
-					continue
+				if relPos > 0 {
+					relPos = relPos - 1
 				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
