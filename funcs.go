@@ -83,6 +83,9 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 					relPos = 0
 				}
 				trigger = true
+				if len(rec.Qual) <= relPos {
+					continue
+				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
 					continue
@@ -101,6 +104,9 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 					relPos = 0
 				}
 				trigger = true
+				if len(rec.Qual) <= relPos {
+					continue
+				}
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
 					continue
