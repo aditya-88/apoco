@@ -10,7 +10,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.3.0-beta"
+	version  string = "0.3.1-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -47,6 +47,7 @@ func flagsProcess() {
 }
 func main() {
 	flagsProcess()
+	runtime.GOMAXPROCS(threads)
 	fmt.Printf("Welcome to %s v%s\nMake sure that the BAM file(s) are coordinate sorted!\n", software, version)
 	fmt.Println("Developed by:", dev)
 	fmt.Println("GitHub:", gitHub)
@@ -57,6 +58,7 @@ func main() {
 		return
 	}
 	// Get a list of BAM files in the folder and process them
+	fmt.Println(">>>Searching for BAM files in the given folder<<<")
 	files := getBamFiles(folder)
 	// If no BAM files are found, exit
 	if len(files) == 0 {
