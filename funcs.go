@@ -78,10 +78,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 		if rec.Ref.Name() == chrName && rec.Len() <= maxReadLength && rec.Len() >= minReadLength {
 			// Check if QUAL and SEQUENCE are of same length
 			if rec.Start() <= rs429358 && rec.End() >= rs429358 {
-				relPos := (rs429358 - rec.Start()) - 1
-				if relPos < 0 {
-					relPos = 0
-				}
+				relPos := rs429358 - rec.Start()
 				trigger = true
 				if len(rec.Qual) <= relPos {
 					continue
@@ -99,10 +96,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 				rs7412Status = "wildtype"
 			}
 			if rec.Start() <= rs7412 && rec.End() >= rs7412 {
-				relPos := (rs7412 - rec.Start()) - 1
-				if relPos < 0 {
-					relPos = 0
-				}
+				relPos := rs7412 - rec.Start()
 				trigger = true
 				if len(rec.Qual) <= relPos {
 					continue

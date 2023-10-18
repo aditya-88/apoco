@@ -10,7 +10,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.3.2-beta"
+	version  string = "0.4.0-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -73,8 +73,8 @@ func main() {
 	fmt.Println("################################################")
 	fmt.Printf("Folder: %s\nFound BAM files: %d\nThreads: %d\nAssembly: hg%d\nrs7412: %d\nrs429358: %d\nMinimum mapping quality: %d\nMinimum read length: %d\nMaxmimum read length: %d\nOutfile file: %s\n", folder, len(files), threads, hg, rs7412, rs429358, minQual, min, max, outFile)
 	fmt.Println("################################################")
-	// Inititalize a progressbar with the number of files
-	progress := progressbar.New(len(files))
+	// Inititalize a progressbar with the number of files but increment by file numbers instead of percentage
+	progress := progressbar.NewOptions(len(files), progressbar.OptionSetPredictTime(true), progressbar.OptionSetRenderBlankState(true), progressbar.OptionShowCount())
 	progress.RenderBlank()
 
 	// Process each file
