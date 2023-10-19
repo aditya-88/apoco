@@ -66,8 +66,8 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 	defer b.Close()
 	for {
 		rec, err := b.Read()
-		rs429358Status := ""
-		rs7412Status := ""
+		rs429358Status := "wildtype"
+		rs7412Status := "wildtype"
 		trigger := false
 		if err == io.EOF {
 			break
@@ -88,12 +88,11 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 					continue
 				}
 				alleleA := ((strings.Split(strings.Split(rec.String(), " ")[9], ""))[relPos])
-				if alleleA == "C" || alleleA == "G" {
+				if alleleA == "T" || alleleA == "A" {
 					rs429358Status = "wildtype"
-				} else if alleleA == "T" || alleleA == "A" {
+				} else if alleleA == "C" || alleleA == "G" {
 					rs429358Status = "mutant"
 				}
-				rs7412Status = "wildtype"
 			}
 			if rec.Start() <= rs7412 && rec.End() >= rs7412 {
 				relPos := rs7412 - rec.Start()
@@ -111,7 +110,6 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 				} else if alleleB == "T" || alleleB == "A" {
 					rs7412Status = "mutant"
 				}
-				rs429358Status = "wildtype"
 			}
 			if trigger {
 				if rs429358Status == "wildtype" && rs7412Status == "wildtype" {
