@@ -79,35 +79,41 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 			// Check if QUAL and SEQUENCE are of same length
 			if rec.Start() <= rs429358 && rec.End() >= rs429358 {
 				relPos := rs429358 - rec.Start()
-				trigger = true
+				if relPos > 0 {
+					relPos = relPos - 1
+				}
 				if len(rec.Qual) <= relPos {
 					continue
 				}
+				trigger = true
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
 					continue
 				}
 				alleleA := ((strings.Split(strings.Split(rec.String(), " ")[9], ""))[relPos])
-				if alleleA == "T" || alleleA == "A" {
+				if alleleA == "T" {
 					rs429358Status = "wildtype"
-				} else if alleleA == "C" || alleleA == "G" {
+				} else if alleleA == "C" {
 					rs429358Status = "mutant"
 				}
 			}
 			if rec.Start() <= rs7412 && rec.End() >= rs7412 {
 				relPos := rs7412 - rec.Start()
-				trigger = true
+				if relPos > 0 {
+					relPos = relPos - 1
+				}
 				if len(rec.Qual) <= relPos {
 					continue
 				}
+				trigger = true
 				currQual := int(rec.Qual[relPos])
 				if currQual < qual {
 					continue
 				}
 				alleleB := ((strings.Split(strings.Split(rec.String(), " ")[9], ""))[relPos])
-				if alleleB == "C" || alleleB == "G" {
+				if alleleB == "C" {
 					rs7412Status = "wildtype"
-				} else if alleleB == "T" || alleleB == "A" {
+				} else if alleleB == "T" {
 					rs7412Status = "mutant"
 				}
 			}

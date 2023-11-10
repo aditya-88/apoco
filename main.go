@@ -10,7 +10,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.4.1-beta"
+	version  string = "0.4.2-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
