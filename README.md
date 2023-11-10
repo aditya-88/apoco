@@ -6,6 +6,8 @@
 
 The program counts the number of reads pertaining to specific `APOE` alleles from `BAM` files in a given folder.
 
+Please note that the program won't be able to find APOE e1 alleles in case the read lengths do not span both the RSID positions (GRCh38: `chr19:44908684` and `chr19:44908822`), which means a read length of at least 138bp.
+
 ## Installation ##
 
 Go to the releases section and downlod the binary file for your system.
