@@ -80,6 +80,9 @@ func main() {
 	for _, file := range files {
 		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr, min, max)
 		curResult := fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
+		if curResult == "" {
+			continue
+		}
 		writeResult(curResult, outFile)
 		progress.Add(1)
 	}
