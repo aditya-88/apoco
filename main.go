@@ -10,7 +10,7 @@ import (
 
 var (
 	software string = "APOCO - APOE allele read counter"
-	version  string = "0.4.2-beta"
+	version  string = "0.5.0-beta"
 	dev      string = "Aditya Singh"
 	gitHub   string = "https://www.github.com/aditya-88"
 	folder   string
@@ -23,7 +23,6 @@ var (
 	min      int
 	max      int
 	outFile  string
-	result   string = "Sample\tAPOE1\tAPOE2\tAPOE3\tAPOE4\n"
 )
 
 type APOE struct {
@@ -80,11 +79,9 @@ func main() {
 	// Process each file
 	for _, file := range files {
 		apoe := processBam(file, threads, rs7412, rs429358, minQual, chr, min, max)
-		result += fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
+		curResult := fmt.Sprintf("%s\t%d\t%d\t%d\t%d\n", apoe.SampleName, apoe.APOE1, apoe.APOE2, apoe.APOE3, apoe.APOE4)
+		writeResult(curResult, outFile)
 		progress.Add(1)
 	}
 	fmt.Println("\n################################################")
-	fmt.Println("Writing results to file: ", outFile)
-	writeResult(result, outFile)
-	fmt.Println("Done!")
 }
