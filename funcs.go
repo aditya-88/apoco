@@ -48,25 +48,25 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 	var r io.Reader
 	f, err := os.Open(path)
 	if err != nil {
-		log.Fatalln("Error opening BAM file:", err)
+		log.Fatalln("\nError opening BAM file:", err)
 	}
 	defer f.Close()
 	ok, err := bgzf.HasEOF(f)
 	if err != nil {
 		// Report error and continue
-		log.Println("Error checking for EOF:", err)
-		log.Println("Skipping file")
+		log.Println("\nError checking for EOF:", err)
+		log.Println("\nSkipping file")
 		return apoe
 	}
 	if !ok {
-		log.Println("EOF not found in file:", path)
+		log.Println("\nEOF not found in file:", path)
 		log.Println("Skipping file")
 		return apoe
 	}
 	r = f
 	b, err := bam.NewReader(r, threads)
 	if err != nil {
-		log.Println("Error reading BAM file:", err)
+		log.Println("\nError reading BAM file:", err)
 		log.Println("Skipping file")
 		return apoe
 	}
@@ -80,7 +80,7 @@ func processBam(path string, threads int, rs7412 int, rs429358 int, qual int, ch
 			break
 		}
 		if err != nil {
-			log.Fatalln("Error reading BAM file:", err)
+			log.Fatalln("\nError reading BAM file:", err)
 		}
 		if rec.Ref.Name() == chrName && rec.Len() <= maxReadLength && rec.Len() >= minReadLength {
 			// Check if QUAL and SEQUENCE are of same length
@@ -147,17 +147,17 @@ func writeResult(result string, file string) {
 	if _, err := os.Stat(file); os.IsNotExist(err) {
 		f, err := os.Create(file)
 		if err != nil {
-			log.Fatalln("Error creating output file:", err)
+			log.Fatalln("\nError creating output file:", err)
 		}
 		defer f.Close()
 		_, err = f.WriteString("Sample\tAPOE1\tAPOE2\tAPOE3\tAPOE4\n")
 		if err != nil {
-			log.Fatalln("Error writing to output file:", err)
+			log.Fatalln("\nError writing to output file:", err)
 		}
 	}
 	f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, 0600)
 	if err != nil {
-		log.Fatalln("Error opening output file:", err)
+		log.Fatalln("\nError opening output file:", err)
 	}
 	defer f.Close()
 	_, err = f.WriteString(result)
