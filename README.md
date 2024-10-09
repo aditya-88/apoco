@@ -2,6 +2,8 @@
 
 **APO**E reads **Co**unter
 
+[![DOI](https://zenodo.org/badge/700333915.svg)](https://doi.org/10.5281/zenodo.13908559)
+
 ## Introduction ##
 
 The program counts the number of reads pertaining to specific `APOE` alleles from `BAM` files in a given folder.
